@@ -1,0 +1,48 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+limitT
+{
+    type             limitTemperature;
+    min              275;
+    max              325;
+    selectionMode    all;
+    selectionMode    cellSet;
+    cellSet          outletCellSet;
+}
+
+acousticDampingSource
+{
+    type            acousticDampingSource;
+    active          yes;
+
+    acousticDampingSourceCoeffs
+    {
+        timeStart        0.005;
+        duration         1.000;
+        selectionMode    cellSet;
+        cellSet          outletCellSet;
+        origin           (0 0 0); // center of the cavity
+        radius1          0.14;
+        radius2          0.15;
+        w                1;
+        frequency        2300;
+        URef             UMean;
+    }
+}
+
+
+//************************************************************************** //

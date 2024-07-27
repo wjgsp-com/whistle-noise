@@ -1,0 +1,233 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+
+// generating cell sets for 5 layers from the boundary
+
+actions
+(
+
+    {
+        name         outletFaceSet0;
+        type         faceSet;
+        action       new;
+        source       patchToFace;
+        sourceInfo
+        {
+            patch    "outlet";
+        }
+    }
+    
+    {
+        name         outletCellSet0;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet0;
+            option   any;
+        }
+    }
+
+    {
+        name         outletFaceSet1;
+        type         faceSet;
+        action       new;
+        source       cellToFace;
+        sourceInfo
+        {
+            set      outletCellSet0;
+            option   all;
+        }
+    }
+
+    {
+        name         outletCellSet1;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet1;
+            option   any;
+        }
+    }
+
+    {
+        name         outletFaceSet2;
+        type         faceSet;
+        action       new;
+        source       cellToFace;
+        sourceInfo
+        {
+            set      outletCellSet1;
+            option   all;
+        }
+    }
+
+    {
+        name         outletCellSet2;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet2;
+            option   any;
+        }
+    }
+
+    {
+        name         outletFaceSet3;
+        type         faceSet;
+        action       new;
+        source       cellToFace;
+        sourceInfo
+        {
+            set      outletCellSet2;
+            option   all;
+        }
+    }
+
+    {
+        name         outletCellSet3;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet3;
+            option   any;
+        }
+    }
+
+    {
+        name         outletFaceSet4;
+        type         faceSet;
+        action       new;
+        source       cellToFace;
+        sourceInfo
+        {
+            set      outletCellSet3;
+            option   all;
+        }
+    }
+
+    {
+        name         outletCellSet4;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet4;
+            option   any;
+        }
+    }
+    
+    {
+        name         outletFaceSet5;
+        type         faceSet;
+        action       new;
+        source       cellToFace;
+        sourceInfo
+        {
+            set      outletCellSet4;
+            option   all;
+        }
+    }
+
+    {
+        name         outletCellSet5;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet5;
+            option   any;
+        }
+    }
+        
+    {
+        name         outletFaceSet6;
+        type         faceSet;
+        action       new;
+        source       cellToFace;
+        sourceInfo
+        {
+            set      outletCellSet5;
+            option   all;
+        }
+    }
+
+    {
+        name         outletCellSet6;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet6;
+            option   any;
+        }
+    }
+        {
+        name         outletFaceSet7;
+        type         faceSet;
+        action       new;
+        source       cellToFace;
+        sourceInfo
+        {
+            set      outletCellSet6;
+            option   all;
+        }
+    }
+
+    {
+        name         outletCellSet7;
+        type         cellSet;
+        action       new;
+        source       faceToCell;
+        sourceInfo
+        {
+            set      outletFaceSet7;
+            option   any;
+        }
+    }
+
+    // merge all cell sets
+    {
+        name    outletCellSet;
+        type    cellSet;
+        action  new;
+        source  cellToCell;
+        sets
+        (
+            outletCellSet0
+            outletCellSet1
+            outletCellSet2
+            outletCellSet3
+            outletCellSet4
+            outletCellSet5
+            outletCellSet6
+            outletCellSet7
+        );
+    }
+
+);

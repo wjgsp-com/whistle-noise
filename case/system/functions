@@ -1,0 +1,108 @@
+/*--------------------------------*- C++ -*----------------------------------* \
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      functions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+fieldAverage
+{
+    type             fieldAverage;
+    libs             (fieldFunctionObjects);
+    writeControl     writeTime;
+    executeControl   timeStep;
+    executeInterval  1000;
+    restartOnOutput  false;
+    timeEnd          1.00;
+    fields
+    (
+        U
+        {
+            mean        on;
+            prime2Mean  off;
+            base        time;
+        }
+    );
+}
+
+
+yPlus1
+{
+    type                yPlus;
+    libs                (fieldFunctionObjects);
+    patches             ( walls );
+    writeControl        writeTime;
+    purgeWrite          0;
+    writePrecision      12;
+    writeFormat         binary;
+    enabled             true;
+    log                 true;
+    executeControl      timeStep;
+    executeInterval     1000;
+    timeStart           0.10;
+}
+
+
+fieldsOfInterest
+{
+    type                writeObjects;
+    libs                ("libutilityFunctionObjects.so");
+    objects
+    (
+        U p rho nut ddt0(rho)
+    );
+    writeControl        adjustableRunTime;
+    writeInterval       2.500000e-5; // 20 snapshots per period of 1/2kHz
+    purgeWrite          0;
+    writePrecision      12;
+    writeFormat         binary;
+    enabled             true;
+    writeCompression    compressed;
+    timeFormat          general;
+    timePrecision       10;
+    writeOption         autoWrite;
+    timeStart           0.10;
+}
+
+
+surface
+{
+    type        surfaces;
+    libs        (sampling);
+    
+    writeControl           runTime;
+    writeInterval          0.0025;
+    timeStart              0.0025;
+    interpolationScheme    cell;
+    surfaceFormat          vtp;
+    formatOptions          { vtp { format binary; } }
+
+    fields                 ( U p rho nut ddt0(rho) );
+
+    surfaces
+    (
+        // cannot simply use the front patch because it is an empty patch
+        front
+        {
+            type          plane;
+            point         ( 0.0 0.0 0.0 );
+            normal        ( 0 0 1 );
+            interpolate   false;
+            triangulate   false;
+        }
+    );
+}
+
+
+
+// ************************************************************************* //

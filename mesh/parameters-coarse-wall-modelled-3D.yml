@@ -1,0 +1,38 @@
+# mesh parameters
+name: sports-whistle_coarse-wall-modelled-2D # used in the filename
+
+lc : 4.00
+wedge_lc : 0.3
+channel_lc : 0.3
+jet_to_wedge_lc : 0.5
+cavity_lc : 0.5
+wedge_jet_lc : 2.00
+domain_edges_jet_lc : 3.33
+
+# define very long outer radius so transition is smooth
+wedge_refinement_zone_inner_radius : 5.5
+wedge_refinement_zone_outer_radius : 40.0
+
+opening_refinement_zone_inner_radius : 0.75
+opening_refinement_zone_outer_radius : 30.
+
+wedge_jet_refinement_length : 20.0
+wedge_jet_refinement_zone_inner_radius : 5.0
+wedge_jet_refinement_zone_outer_radius : 50.
+
+domain_edges_refinement_zone_inner_radius : 5.0
+domain_edges_refinement_zone_outer_radius : 70.0
+
+# very sensitive to the parameters when using Quads (recombination of elements)
+bl_first_layer : 0.12 # thickness of first layer
+bl_ratio : 0.3 # size ratio between two successive layers
+bl_quads : 1 # generate recombined elements in the boundary layer? 0 or 1
+bl_thickness : 0.120001 # maximal thickness of the boundary layer
+bl_number_fan_elements : 9 # number of elements per 180 deg
+
+h : 10.0 # extrusion height
+n_extrude : 10 # number extruded layers
+
+mesh_3D : True
+recombine_2D : False
+recombine_extrude : True

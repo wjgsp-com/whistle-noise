@@ -1,0 +1,126 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+application       rhoPimpleFoam;
+
+startFrom         startTime;
+
+startTime         0;
+
+stopAt            endTime;
+
+endTime           32.3333333e-6; // 16.666667e-6;
+
+deltaT            16.666667e-8;
+adjustTimeStep    no;
+
+writeControl      adjustableRunTime;
+writeInterval     16.666667e-7;
+
+purgeWrite        10;
+
+writeFormat       binary;
+writeCompression  off;
+
+writePrecision    12;
+timeFormat        fixed;
+timePrecision     10;
+
+runTimeModifiable false;
+
+functions
+{
+
+    #include "probes"
+    
+
+    fieldAverage
+    {
+        type             fieldAverage;
+        libs             (fieldFunctionObjects);
+        writeControl     writeTime;
+        executeControl   timeStep;
+        executeInterval  1000;
+        restartOnOutput  true;
+        fields
+        (
+            U
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+            }
+        );
+    }
+
+    surface
+    {
+        type        surfaces;
+        libs        (sampling);
+        
+        writeControl           runTime;
+        writeInterval          33.333334e-8;
+        interpolationScheme    cellPointFace;
+        surfaceFormat          vtp;
+        formatOptions          { vtp { format binary; } }
+
+        fields                 ( U p rho );
+
+        surfaces
+        (
+            inlet
+            {
+                type          patch;
+                patches       ( inlet );
+                interpolate   false;
+                triangulate   false;
+            }
+            // cannot simply use the front patch because it is an empty patch
+            front
+            {
+                type          plane;
+                point         (0 0 0.01);
+                normal        ( 0 0 1 );
+                interpolate   false;
+                triangulate   false;
+            }
+        );
+    }
+
+    systemCall1
+    {
+        type        systemCall;
+        libs        (utilityFunctionObjects);
+        master      true;
+        executeCalls // every time step
+        (
+        );
+        writeCalls // every output time
+        (
+            "echo === writing data ==="
+            "source ./functions; write_vtp_series"
+        );
+        endCalls // end of the calculation
+        (
+        );
+    }
+
+}
+
+
+// ************************************************************************* //
+

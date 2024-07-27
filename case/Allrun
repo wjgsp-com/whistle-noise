@@ -1,0 +1,31 @@
+#!/bin/sh
+module load mpi
+source /usr/lib/openfoam/openfoam2206/etc/bashrc
+source ./functions
+
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+runApplication restore0Dir
+
+runApplication gmshToFoam constant/*.msh
+runApplication transformPoints -scale '(0.001 0.001 0.001)'
+
+runApplication changeDictionary
+runApplication checkMesh
+
+runApplication topoSet
+
+runApplication decomposePar -copyZero
+runParallel renumberMesh -overwrite
+
+runParallel $(getApplication)
+
+runParallel -s reconstruct redistributePar -reconstruct -overwrite
+
+runApplication setsToZones -noFlipMap
+paraFoam -touch-all
+write_vtp_series
+
+#------------------------------------------------------------------------------

@@ -1,0 +1,72 @@
+/*--------------------------------*- C++ -*----------------------------------* \
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2206                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      probes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+probesPressure
+{
+    // Where to load it from
+    libs            (sampling);
+    type            probes;
+    // Name of the directory for probe data
+    name            probes;
+    writeControl    timeStep;
+    writeInterval   2;
+    fields
+    (
+        p
+    );
+    probeLocations
+    (
+        (0.0 0.00 0.0) // at cavity center
+        (0.0033 0.0067 0.0) // close to wedge tip
+        (0.0 0.050 0.0) // above opening
+        (0.0 0.100 0.0)
+        (0.0 0.125 0.0)
+        (0.0 0.150 0.0)
+        (0.03535 0.03535 0.0) // at 45 deg
+        (0.07071 0.07071 0.0)
+        (0.08839 0.08839 0.0)
+        (0.10606 0.10606 0.0)
+        (0.050 0.0 0.0) // side of the whistle
+        (0.100 0.0 0.0)
+        (0.125 0.0 0.0)
+        (0.150 0.0 0.0)
+    );
+}
+
+probesVelocity
+{
+    // Where to load it from
+    libs            (sampling);
+    type            probes;
+    // Name of the directory for probe data
+    name            probes;
+    writeControl    timeStep;
+    writeInterval   2;
+    fields
+    (
+        U
+    );
+    probeLocations
+    (
+        (0.0 0.00 0.0) // at cavity center
+        ( 0.0005  0.0000 0.0) // cavity right
+        ( 0.0000 -0.0005 0.0) // cavity bottom
+        (-0.0005  0.0000 0.0) // cavity left
+    );
+}
+
+
+// ************************************************************************* //

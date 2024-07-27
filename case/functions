@@ -1,0 +1,18 @@
+#!/bin/bash
+
+write_vtp_series () {
+  face_name="front"
+  vtp_series_file="${face_name}.vtp.series"
+  list_files=$( find postProcessing/*/*/${face_name}.vtp )
+
+  header="{\n \"file-series-version\" : 1.0,\n \"files\" : ["
+  footer=" ]\n}"
+
+  echo -e $header > $vtp_series_file
+  for file in $list_files
+  do
+    t=$( basename $( dirname $file ) )
+    echo "   { \"name\" : \"$file\", \"time\" : $t }," >> $vtp_series_file
+  done
+  echo -e $footer >> $vtp_series_file
+}
