@@ -10,7 +10,7 @@ set -e # stop if eror
 runs_folder=$( realpath '../runs/')
 
 # change following variables for 
-case_name='whistle'
+case_name='case'
 dimension='2D'
 model='LES.WALE'
 inlet_u='5.5'
