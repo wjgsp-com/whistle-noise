@@ -3,6 +3,8 @@
 Repository with the complete numerical setup for the direct noise simulation of 
 a sports whistle based on OpenFOAM.
 
+![GIF with instantaneous vorticity fields](./animation.gif "spanwise vorticity for 2D-LES")
+
 Execute `bash launch.sh` to run the simulation.
 
 Folders:
